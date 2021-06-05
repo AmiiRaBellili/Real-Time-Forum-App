@@ -3,10 +3,22 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Model\Question;
+use App\Model\Category;
+use App\User;
 use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 
 $factory->define(Question::class, function (Faker $faker) {
+    $title = $faker->sentence;
     return [
-        //
+        'title' => $title,
+        'slug' => str::slug($title, '-'),
+        'body' => $faker->text,
+        'Category_id' => function () {
+            return Category::all()->random();
+        },
+        'user_id' => function () {
+            return User::all()->random();
+        }
     ];
 });
